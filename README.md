@@ -1,1 +1,1 @@
-# carsGame \n Game for driving car
+# carsGame | Game for driving car
