@@ -19,6 +19,7 @@
 
 # Ignore all files in catalog
 /[Aa]ssets/BOKI/
+/[Aa]ssets/BOKI.meta
 
 # Uncomment this line if you wish to ignore the asset store tools plugin
 # /[Aa]ssets/AssetStoreTools*
