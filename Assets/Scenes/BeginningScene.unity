@@ -10985,6 +10985,7 @@ GameObject:
   - component: {fileID: 2029389149}
   - component: {fileID: 2029389148}
   - component: {fileID: 2029389150}
+  - component: {fileID: 2029389151}
   m_Layer: 0
   m_Name: Terrain
   m_TagString: Untagged
@@ -11044,7 +11045,7 @@ Terrain:
   m_TreeBillboardDistance: 50
   m_TreeCrossFadeLength: 5
   m_TreeMaximumFullLODCount: 50
-  m_DetailObjectDistance: 80
+  m_DetailObjectDistance: 100
   m_DetailObjectDensity: 1
   m_HeightmapPixelError: 5
   m_SplatMapDistance: 1000
@@ -11057,7 +11058,7 @@ Terrain:
   m_StaticShadowCaster: 0
   m_IgnoreQualitySettings: 0
   m_ReflectionProbeUsage: 1
-  m_MaterialTemplate: {fileID: 10652, guid: 0000000000000000f000000000000000, type: 0}
+  m_MaterialTemplate: {fileID: 10650, guid: 0000000000000000f000000000000000, type: 0}
   m_BakeLightProbesForTrees: 1
   m_PreserveTreePrototypeLayers: 0
   m_DeringLightProbesForTrees: 1
@@ -11092,6 +11093,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!114 &2029389151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2029389146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2db6b8c8d15f4cf4d911130651adc920, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scale: 50
+  xOffset: 1
+  yOffset: 1
+  coef: 1
 --- !u!1 &2060498240
 GameObject:
   m_ObjectHideFlags: 0
