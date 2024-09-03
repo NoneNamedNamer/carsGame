@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class Falling : MonoBehaviour
 {
-    public Vector3 V3;
+    Vector3 V3;
     int q = -7;
 
     void Update()
