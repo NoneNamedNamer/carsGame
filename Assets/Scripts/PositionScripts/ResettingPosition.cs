@@ -10,11 +10,11 @@ public class ResettingPosition : MonoBehaviour
 
     void Start()
     {
-        V3.Set(-396.7775f, -475.3808f, 21.53146f);
+        V3 = this.transform.position;
     }
 
-    /*public void Resetting()
+    public void Resetting()
     {
         
-    }*/
+    }
 }

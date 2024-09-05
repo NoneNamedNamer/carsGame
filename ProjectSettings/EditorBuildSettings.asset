@@ -9,9 +9,12 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 1bddf71c342a22a4a833c335537d336a
   - enabled: 1
-    path: Assets/Scenes/BeginningScene.unity
+    path: Assets/Scenes/DefaultCarScene.unity
     guid: ef07c43fed8cdfc4fa8cdb233abafdea
   - enabled: 1
     path: Assets/Scenes/GameOver.unity
     guid: 598375a8b1568dc4faaad87b622a69fd
+  - enabled: 1
+    path: Assets/Scenes/TaxiScene.unity
+    guid: 745966dfc15b66b488c98192fac90d71
   m_configObjects: {}
