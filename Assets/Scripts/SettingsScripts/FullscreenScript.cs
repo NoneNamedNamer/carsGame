@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class FullscreenScript : MonoBehaviour
 {
-    // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F12))
+        if (Input.GetKeyDown(KeyCode.F11))
         {
             if (Screen.fullScreen == true)
             {
