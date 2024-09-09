@@ -6,8 +6,9 @@ using UnityEngine.SceneManagement;
 public class GotToSphereGS1 : MonoBehaviour
 {
     Vector3 V3;
-    float gs = 0.0f;
-    float fuelTank = 0.0f;
+
+    public GameObject RefuelingCanvas;
+    public GameObject RefuelingDoneCanvas;
 
     void Update()
     {
@@ -15,30 +16,31 @@ public class GotToSphereGS1 : MonoBehaviour
         if (V3.x >= 381.11f && V3.x <= 381.4905f &&
             V3.y > 0.0f &&
             V3.z <= 104.33f && V3.z >= 97.8f)
-        {
-            gameObject.SendMessage("Refueling", fuelTank);
-            
+        {            
+            gameObject.SendMessage("Refueling", CarControl.Fuel);           
         }
+        
         
         if (V3.x >= 371.8f && V3.x <= 372.3f &&
             V3.y > 0.0f &&
             V3.z <= 104.33f && V3.z >= 97.8f)
         {
-            gameObject.SendMessage("Refueling", fuelTank);
-            
+            gameObject.SendMessage("Refueling", CarControl.Fuel);           
         }
+        
     }
-
-    public void Refueling(float fuel)
+    //float fuel
+    public void Refueling()
     {
-        if (gs < 10000.0f)
+        if (CarControl.Fuel < 10000.0f)
         {
-            print(gs + fuel);
-            gs++;
+            RefuelingCanvas.SetActive(true);
+            CarControl.Fuel++;
         }
         else
         {
-            print("Done.");
+            RefuelingCanvas.SetActive(false);
+            RefuelingDoneCanvas.SetActive(true);
         }        
     }
 }
