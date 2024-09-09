@@ -11,7 +11,7 @@ public class CarControl : MonoBehaviour
     public float steeringRangeAtMaxSpeed = 10;
     public float centreOfGravityOffset = -1f;
 
-    public static float fuel = 10000.0f;
+    static float fuel = 10000.0f;
 
     public static float Fuel
     {

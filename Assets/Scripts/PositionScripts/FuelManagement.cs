@@ -9,6 +9,7 @@ public class GotToSphereGS1 : MonoBehaviour
 
     public GameObject RefuelingCanvas;
     public GameObject RefuelingDoneCanvas;
+    public GameObject LowFuelWarningCanvas;
 
     void Update()
     {
@@ -16,20 +17,20 @@ public class GotToSphereGS1 : MonoBehaviour
         if (V3.x >= 381.11f && V3.x <= 381.4905f &&
             V3.y > 0.0f &&
             V3.z <= 104.33f && V3.z >= 97.8f)
-        {            
-            gameObject.SendMessage("Refueling", CarControl.Fuel);           
-        }
-        
+        {
+            Refueling();
+        }        
         
         if (V3.x >= 371.8f && V3.x <= 372.3f &&
             V3.y > 0.0f &&
             V3.z <= 104.33f && V3.z >= 97.8f)
         {
-            gameObject.SendMessage("Refueling", CarControl.Fuel);           
+            Refueling();
         }
-        
+
+        LowFuel();        
     }
-    //float fuel
+
     public void Refueling()
     {
         if (CarControl.Fuel < 10000.0f)
@@ -42,5 +43,17 @@ public class GotToSphereGS1 : MonoBehaviour
             RefuelingCanvas.SetActive(false);
             RefuelingDoneCanvas.SetActive(true);
         }        
+    }
+
+    public void LowFuel()
+    {
+        if (CarControl.Fuel < 2000.0f)
+        {
+            LowFuelWarningCanvas.SetActive(true);
+        }
+        else
+        {
+            LowFuelWarningCanvas.SetActive(false);
+        }
     }
 }
