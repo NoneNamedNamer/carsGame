@@ -11,6 +11,11 @@ public class CarControl : MonoBehaviour
     public float steeringRangeAtMaxSpeed = 10;
     public float centreOfGravityOffset = -1f;
 
+    float checker = 0.0f;
+    int rechecker = 1;
+
+    public float damage = 0.0f;
+
     static float fuel = 10000.0f;
 
     public static float Fuel
@@ -63,42 +68,89 @@ public class CarControl : MonoBehaviour
         // as the car's velocity
         bool isAccelerating = Mathf.Sign(vInput) == Mathf.Sign(forwardSpeed);
 
+        //Gear shifting
         if (Input.GetKeyDown(KeyCode.F1))
         {
-            maxSpeed = 20;
+            checker = speedFactor - damage;
+            if (rechecker > 2)
+            {
+                damage += 0.05f;
+            }
+            else
+            {
+                maxSpeed = 20;
+                rechecker = 1;
+            }            
         }
         if (Input.GetKeyDown(KeyCode.F2))
         {
-            maxSpeed = 40;
-            if (speedFactor < 0.5f)
+            checker = speedFactor + 1.0f - damage;
+            if (checker < 1.4f)
             {
-                maxSpeed = 20;
+                damage += 0.01f;
+            }
+            else if (rechecker > 3)
+            {
+                damage += 0.05f;
+            }
+            else
+            {                
+                maxSpeed = 40;
+                rechecker = 2;
             }
         }
         if (Input.GetKeyDown(KeyCode.F3))
         {
-            maxSpeed = 60;
-            if (speedFactor < 0.5f)
+            checker = speedFactor + 2.0f - damage;
+            if (checker < 2.4f)
             {
-                maxSpeed = 40;
+                damage += 0.01f;
+            }
+            else if (rechecker > 4 || rechecker < 2)
+            {
+                damage += 0.05f;
+            }
+            else
+            {                
+                maxSpeed = 60;
+                rechecker = 3;
             }
         }
         if (Input.GetKeyDown(KeyCode.F4))
         {
-            maxSpeed = 80;
-            if (speedFactor < 0.5f)
+            checker = speedFactor + 3.0f - damage;
+            if (checker < 3.4f)
             {
-                maxSpeed = 60;
+                damage += 0.01f;
+            }
+            else if (rechecker < 3)
+            {
+                damage += 0.05f;
+            }
+            else
+            {                
+                maxSpeed = 80;
+                rechecker = 4;
             }
         }
         if (Input.GetKeyDown(KeyCode.F5))
         {
-            maxSpeed = 90;
-            if (speedFactor < 0.5f)
+            checker = speedFactor + 4.0f - damage;
+            if (checker < 4.4f)
             {
-                maxSpeed = 80;
+                damage += 0.01f;
+            }
+            else if (rechecker < 4)
+            {
+                damage += 0.05f;
+            }
+            else
+            {                
+                maxSpeed = 90;
+                rechecker = 5;
             }
         }
+        print(checker);
 
         foreach (var wheel in wheels)
         {
@@ -116,7 +168,7 @@ public class CarControl : MonoBehaviour
                 {
                     wheel.WheelCollider.motorTorque = vInput * currentMotorTorque;
                     fuel = fuel - Mathf.Abs(vInput)/100;
-                    print(fuel);
+                    //print(fuel);
                 }
 
                 wheel.WheelCollider.brakeTorque = 0;
