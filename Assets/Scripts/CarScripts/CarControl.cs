@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CarControl : MonoBehaviour
 {
+    public GameObject DamagedCarCanvas;
+    
     public float motorTorque = 2000;
     public float brakeTorque = 2000;
     public float maxSpeed = 20;
@@ -11,12 +13,12 @@ public class CarControl : MonoBehaviour
     public float steeringRangeAtMaxSpeed = 10;
     public float centreOfGravityOffset = -1f;
 
-    float checker = 0.0f;
-    int rechecker = 1;
+    float sync = 0.0f;
+    int gear = 1;
 
     public float damage = 0.0f;
 
-    static float fuel = 10000.0f;
+    static float fuel = 5000.0f;  
 
     public static float Fuel
     {
@@ -42,6 +44,7 @@ public class CarControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        print(fuel);
         float vInput = Input.GetAxis("Vertical");
         //Debug.Log(vInput);
         float hInput = Input.GetAxis("Horizontal");
@@ -52,9 +55,7 @@ public class CarControl : MonoBehaviour
 
         // Calculate how close the car is to top speed
         // as a number from zero to one
-        float speedFactor = Mathf.InverseLerp(0, maxSpeed, forwardSpeed);
-
-        //print(speedFactor);       
+        float speedFactor = Mathf.InverseLerp(0, maxSpeed, forwardSpeed);      
 
         // Use that to calculate how much torque is available 
         // (zero torque at top speed)
@@ -68,89 +69,97 @@ public class CarControl : MonoBehaviour
         // as the car's velocity
         bool isAccelerating = Mathf.Sign(vInput) == Mathf.Sign(forwardSpeed);
 
-        //Gear shifting
-        if (Input.GetKeyDown(KeyCode.F1))
+        //Gear shifting        
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Alpha1))
         {
-            checker = speedFactor - damage;
-            if (rechecker > 2)
+            sync = speedFactor - damage;
+            if (gear > 2)
             {
-                damage += 0.05f;
+                damage += 0.02f;
             }
             else
             {
                 maxSpeed = 20;
-                rechecker = 1;
+                gear = 1;
             }            
         }
-        if (Input.GetKeyDown(KeyCode.F2))
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Alpha2))
         {
-            checker = speedFactor + 1.0f - damage;
-            if (checker < 1.4f)
+            sync = speedFactor + 1.0f - damage;
+            if (sync < 1.4f)
             {
                 damage += 0.01f;
             }
-            else if (rechecker > 3)
+            else if (gear > 3)
             {
-                damage += 0.05f;
+                damage += 0.02f;
             }
             else
             {                
                 maxSpeed = 40;
-                rechecker = 2;
+                gear = 2;
             }
         }
-        if (Input.GetKeyDown(KeyCode.F3))
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Alpha3))
         {
-            checker = speedFactor + 2.0f - damage;
-            if (checker < 2.4f)
+            sync = speedFactor + 2.0f - damage;
+            if (sync < 2.4f)
             {
                 damage += 0.01f;
             }
-            else if (rechecker > 4 || rechecker < 2)
+            else if (gear > 4 || gear < 2)
             {
-                damage += 0.05f;
+                damage += 0.02f;
             }
             else
             {                
                 maxSpeed = 60;
-                rechecker = 3;
+                gear = 3;
             }
         }
-        if (Input.GetKeyDown(KeyCode.F4))
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Alpha4))
         {
-            checker = speedFactor + 3.0f - damage;
-            if (checker < 3.4f)
+            sync = speedFactor + 3.0f - damage;
+            if (sync < 3.4f)
             {
                 damage += 0.01f;
             }
-            else if (rechecker < 3)
+            else if (gear < 3)
             {
-                damage += 0.05f;
+                damage += 0.02f;
             }
             else
             {                
                 maxSpeed = 80;
-                rechecker = 4;
+                gear = 4;
             }
         }
-        if (Input.GetKeyDown(KeyCode.F5))
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Alpha5))
         {
-            checker = speedFactor + 4.0f - damage;
-            if (checker < 4.4f)
+            sync = speedFactor + 4.0f - damage;
+            if (sync < 4.4f)
             {
                 damage += 0.01f;
             }
-            else if (rechecker < 4)
+            else if (gear < 4)
             {
-                damage += 0.05f;
+                damage += 0.02f;
             }
             else
             {                
                 maxSpeed = 90;
-                rechecker = 5;
+                gear = 5;
             }
         }
-        print(checker);
+        
+        if (damage > 0.2f)
+        {
+            DamagedCarCanvas.SetActive(true);
+        }
+        else
+        {
+            DamagedCarCanvas.SetActive(false);
+        }
 
         foreach (var wheel in wheels)
         {
