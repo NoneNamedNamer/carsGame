@@ -1,10 +1,13 @@
 using System.Diagnostics;
+using System;
 using System.Security.Cryptography;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CarControl : MonoBehaviour
 {
     public GameObject DamagedCarCanvas;
+    public GameObject InterfaceCanvas;
     
     public float motorTorque = 2000;
     public float brakeTorque = 2000;
@@ -12,6 +15,10 @@ public class CarControl : MonoBehaviour
     public float steeringRange = 30;
     public float steeringRangeAtMaxSpeed = 10;
     public float centreOfGravityOffset = -1f;
+
+    bool activeUI = false;
+    public TMPro.TMP_Text speedText;
+    public TMPro.TMP_Text gearText;
 
     float sync = 0.0f;
     int gear = 1;
@@ -210,7 +217,6 @@ public class CarControl : MonoBehaviour
                 {
                     wheel.WheelCollider.motorTorque = vInput * currentMotorTorque;
                     fuel = fuel - Mathf.Abs(vInput)/100;
-                    //print(fuel);
                 }
 
                 wheel.WheelCollider.brakeTorque = 0;
@@ -223,5 +229,14 @@ public class CarControl : MonoBehaviour
                 wheel.WheelCollider.motorTorque = 0;
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            activeUI = !activeUI;
+            InterfaceCanvas.SetActive(activeUI);
+        }
+
+        speedText.text = $"Speed: {Math.Round(forwardSpeed, 0)}";
+        gearText.text = $"Gear: {gear}";
     }
 }
