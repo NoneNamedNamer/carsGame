@@ -44,7 +44,6 @@ public class CarControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print(fuel);
         float vInput = Input.GetAxis("Vertical");
         //Debug.Log(vInput);
         float hInput = Input.GetAxis("Horizontal");
@@ -55,7 +54,7 @@ public class CarControl : MonoBehaviour
 
         // Calculate how close the car is to top speed
         // as a number from zero to one
-        float speedFactor = Mathf.InverseLerp(0, maxSpeed, forwardSpeed);      
+        float speedFactor = Mathf.InverseLerp(0, maxSpeed, forwardSpeed);
 
         // Use that to calculate how much torque is available 
         // (zero torque at top speed)
@@ -70,10 +69,19 @@ public class CarControl : MonoBehaviour
         bool isAccelerating = Mathf.Sign(vInput) == Mathf.Sign(forwardSpeed);
 
         //Gear shifting        
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.N))
+        {
+            gear = 0;
+            sync = 0;
+        }
         if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Alpha1))
         {
-            sync = speedFactor - damage;
-            if (gear > 2)
+            sync = 1.0f - damage;
+            if (sync < 0.6f && sync >= 0.01f)
+            {
+                damage += 0.01f;
+            }
+            else if (gear > 2)
             {
                 damage += 0.02f;
             }
@@ -86,7 +94,7 @@ public class CarControl : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Alpha2))
         {
             sync = speedFactor + 1.0f - damage;
-            if (sync < 1.4f)
+            if (sync < 1.5f)
             {
                 damage += 0.01f;
             }
@@ -107,7 +115,7 @@ public class CarControl : MonoBehaviour
             {
                 damage += 0.01f;
             }
-            else if (gear > 4 || gear < 2)
+            else if ((gear > 4 || gear < 2) && gear != 0)
             {
                 damage += 0.02f;
             }
@@ -120,7 +128,7 @@ public class CarControl : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Alpha4))
         {
             sync = speedFactor + 3.0f - damage;
-            if (sync < 3.4f)
+            if (sync < 3.3f)
             {
                 damage += 0.01f;
             }
@@ -137,7 +145,7 @@ public class CarControl : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Alpha5))
         {
             sync = speedFactor + 4.0f - damage;
-            if (sync < 4.4f)
+            if (sync < 4.2f)
             {
                 damage += 0.01f;
             }
@@ -151,7 +159,24 @@ public class CarControl : MonoBehaviour
                 gear = 5;
             }
         }
-        
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.R))
+        {
+            sync = speedFactor;
+            if (sync > 0.01f)
+            {
+                damage += 0.01f;
+            }
+            else if (gear > 1)
+            {
+                damage += 0.05f;
+            }
+            else
+            {
+                maxSpeed = 40;
+                gear = -1;
+            }
+        }
+
         if (damage > 0.2f)
         {
             DamagedCarCanvas.SetActive(true);
@@ -163,6 +188,14 @@ public class CarControl : MonoBehaviour
 
         foreach (var wheel in wheels)
         {
+            if (gear == 0)
+            {
+                wheel.motorized = false;
+            }
+            else if (gear != 0)
+            {
+                wheel.motorized = true;
+            }
             // Apply steering to Wheel colliders that have "Steerable" enabled
             if (wheel.steerable)
             {
@@ -182,7 +215,7 @@ public class CarControl : MonoBehaviour
 
                 wheel.WheelCollider.brakeTorque = 0;
             }
-            else
+            if (!isAccelerating)
             {
                 // If the user is trying to go in the opposite direction
                 // apply brakes to all wheels
