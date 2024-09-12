@@ -19,9 +19,11 @@ public class CarControl : MonoBehaviour
     bool activeUI = false;
     public TMPro.TMP_Text speedText;
     public TMPro.TMP_Text gearText;
+    public TMPro.TMP_Text tachText;
 
     float sync = 0.0f;
     int gear = 1;
+    float tach = 1.0f;
 
     public float damage = 0.0f;
 
@@ -80,6 +82,7 @@ public class CarControl : MonoBehaviour
         {
             gear = 0;
             sync = 0;
+            tach = speedFactor * 2500;
         }
         if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Alpha1))
         {
@@ -96,6 +99,7 @@ public class CarControl : MonoBehaviour
             {
                 maxSpeed = 20;
                 gear = 1;
+                tach = speedFactor * 2500;
             }            
         }
         if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Alpha2))
@@ -113,6 +117,7 @@ public class CarControl : MonoBehaviour
             {                
                 maxSpeed = 40;
                 gear = 2;
+                tach = speedFactor * 2500;
             }
         }
         if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Alpha3))
@@ -130,6 +135,7 @@ public class CarControl : MonoBehaviour
             {                
                 maxSpeed = 60;
                 gear = 3;
+                tach = speedFactor * 2500;
             }
         }
         if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Alpha4))
@@ -147,6 +153,7 @@ public class CarControl : MonoBehaviour
             {                
                 maxSpeed = 80;
                 gear = 4;
+                tach = speedFactor * 2500;
             }
         }
         if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Alpha5))
@@ -164,6 +171,7 @@ public class CarControl : MonoBehaviour
             {                
                 maxSpeed = 90;
                 gear = 5;
+                tach = speedFactor * 2500;
             }
         }
         if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.R))
@@ -181,8 +189,11 @@ public class CarControl : MonoBehaviour
             {
                 maxSpeed = 40;
                 gear = -1;
+                tach = speedFactor * 2500;
             }
         }
+
+        tach = speedFactor * 2500;
 
         if (damage > 0.2f)
         {
@@ -238,5 +249,6 @@ public class CarControl : MonoBehaviour
 
         speedText.text = $"Speed: {Math.Round(forwardSpeed, 0)}";
         gearText.text = $"Gear: {gear}";
+        tachText.text = $"Tach: {Math.Round(tach, 0)}";
     }
 }
