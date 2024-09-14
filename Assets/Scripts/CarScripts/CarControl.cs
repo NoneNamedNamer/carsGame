@@ -54,7 +54,6 @@ public class CarControl : MonoBehaviour
     void Update()
     {
         float vInput = Input.GetAxis("Vertical");
-        //Debug.Log(vInput);
         float hInput = Input.GetAxis("Horizontal");
 
         // Calculate current speed in relation to the forward direction of the car
@@ -193,6 +192,7 @@ public class CarControl : MonoBehaviour
             }
         }
 
+        //Tachometer in UI
         tach = speedFactor * 2500;
 
         if (damage > 0.2f)
@@ -247,7 +247,7 @@ public class CarControl : MonoBehaviour
             InterfaceCanvas.SetActive(activeUI);
         }
 
-        speedText.text = $"Speed: {Math.Round(forwardSpeed, 0)}";
+        speedText.text = $"Speed: {Math.Round(Mathf.Abs(forwardSpeed), 0)}";
         gearText.text = $"Gear: {gear}";
         tachText.text = $"Tach: {Math.Round(tach, 0)}";
     }
