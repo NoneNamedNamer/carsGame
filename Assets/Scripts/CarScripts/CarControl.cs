@@ -20,6 +20,7 @@ public class CarControl : MonoBehaviour
     public TMPro.TMP_Text speedText;
     public TMPro.TMP_Text gearText;
     public TMPro.TMP_Text tachText;
+    public TMPro.TMP_Text fuelText;
 
     float sync = 0.0f;
     int gear = 1;
@@ -27,7 +28,7 @@ public class CarControl : MonoBehaviour
 
     public float damage = 0.0f;
 
-    static float fuel = 5000.0f;  
+    static float fuel = 500.0f;  
 
     public static float Fuel
     {
@@ -204,9 +205,10 @@ public class CarControl : MonoBehaviour
             DamagedCarCanvas.SetActive(false);
         }
 
+        //Wheel management
         foreach (var wheel in wheels)
         {
-            if (gear == 0)
+            if (gear == 0 || fuel <= 50)
             {
                 wheel.motorized = false;
             }
@@ -250,5 +252,6 @@ public class CarControl : MonoBehaviour
         speedText.text = $"Speed: {Math.Round(Mathf.Abs(forwardSpeed), 0)}";
         gearText.text = $"Gear: {gear}";
         tachText.text = $"Tach: {Math.Round(tach, 0)}";
+        fuelText.text = $"Fuel: {Math.Round(fuel)}";
     }
 }
