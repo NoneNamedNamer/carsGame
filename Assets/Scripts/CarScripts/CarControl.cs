@@ -28,7 +28,7 @@ public class CarControl : MonoBehaviour
 
     public float damage = 0.0f;
 
-    static float fuel = 500.0f;  
+    static float fuel = 5000.0f;  
 
     public static float Fuel
     {
