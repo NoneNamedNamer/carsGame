@@ -26,10 +26,14 @@ public class CarControl : MonoBehaviour
     int gear = 1;
     float tach = 1.0f;
 
-    public float damage = 0.0f;
+    static float damage = 0.0f;
+    public static float Damage
+    {
+        get { return damage; }
+        set { damage = value; }
+    }
 
     static float fuel = 5000.0f;  
-
     public static float Fuel
     {
         get { return fuel; }
