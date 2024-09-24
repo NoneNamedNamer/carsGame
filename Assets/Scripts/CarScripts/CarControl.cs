@@ -6,8 +6,10 @@ using UnityEngine.UI;
 
 public class CarControl : MonoBehaviour
 {
-    public GameObject DamagedCarCanvas;
-    public GameObject InterfaceCanvas;
+    [SerializeField]
+    GameObject DamagedCarCanvas;
+    [SerializeField]
+    GameObject InterfaceCanvas;
     
     public float motorTorque = 2000;
     public float brakeTorque = 2000;
@@ -17,10 +19,18 @@ public class CarControl : MonoBehaviour
     public float centreOfGravityOffset = -1f;
 
     bool activeUI = false;
-    public TMPro.TMP_Text speedText;
-    public TMPro.TMP_Text gearText;
-    public TMPro.TMP_Text tachText;
-    public TMPro.TMP_Text fuelText;
+
+    [SerializeField]
+    TMPro.TMP_Text speedText;
+
+    [SerializeField]
+    TMPro.TMP_Text gearText;
+
+    [SerializeField]
+    TMPro.TMP_Text tachText;
+
+    [SerializeField]
+    TMPro.TMP_Text fuelText;
 
     float sync = 0.0f;
     int gear = 1;

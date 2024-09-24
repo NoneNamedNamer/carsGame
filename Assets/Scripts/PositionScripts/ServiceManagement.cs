@@ -7,7 +7,8 @@ public class ServiceManagement : MonoBehaviour
 {
     Vector3 V3;
 
-    public GameObject RepairingDoneCanvas;
+    [SerializeField]
+    GameObject RepairingDoneCanvas;
     //public GameObject AudioSource;
 
     // Update is called once per frame

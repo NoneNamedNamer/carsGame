@@ -3,14 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GotToSphereGS1 : MonoBehaviour
+public class FuelManagement : MonoBehaviour
 {
     Vector3 V3;
 
-    public GameObject RefuelingCanvas;
-    public GameObject RefuelingDoneCanvas;
-    public GameObject LowFuelWarningCanvas;
-    public GameObject AudioSource;
+    [SerializeField]
+    GameObject RefuelingCanvas;
+    
+    [SerializeField]
+    GameObject RefuelingDoneCanvas;
+
+    [SerializeField]
+    GameObject LowFuelWarningCanvas;
+
+    [SerializeField]
+    GameObject AudioSource;
 
     void Update()
     {
