@@ -6,9 +6,8 @@ using UnityEngine.SceneManagement;
 public class ServiceManagement : MonoBehaviour
 {
     Vector3 V3;
-
-    [SerializeField]
-    GameObject RepairingDoneCanvas;
+    // Canvases
+    [SerializeField] GameObject RepairingDoneCanvas;
     //public GameObject AudioSource;
 
     // Update is called once per frame

@@ -5,40 +5,38 @@ using UnityEngine.SceneManagement;
 
 public class FuelManagement : MonoBehaviour
 {
-    Vector3 V3;
+    // Vector for getting active position
+    Vector3 aPos;
 
-    [SerializeField]
-    GameObject RefuelingCanvas;
-    
-    [SerializeField]
-    GameObject RefuelingDoneCanvas;
+    // Canvases
+    [SerializeField] GameObject RefuelingCanvas;   
+    [SerializeField] GameObject RefuelingDoneCanvas;
+    [SerializeField] GameObject LowFuelWarningCanvas;
 
-    [SerializeField]
-    GameObject LowFuelWarningCanvas;
+    // Refueling music. It plays while player refuels
+    [SerializeField] GameObject AudioSource;
 
-    [SerializeField]
-    GameObject AudioSource;
-
+    // Updating checks for activating methods if needed
     void Update()
     {
-        V3 = this.transform.position;
-        if (V3.x >= 381.11f && V3.x <= 381.4905f &&
-            V3.y > 0.0f &&
-            V3.z <= 104.33f && V3.z >= 97.8f)
+        aPos = this.transform.position;
+        if (aPos.x >= 381.11f && aPos.x <= 381.4905f &&
+            aPos.y > 0.0f &&
+            aPos.z <= 104.33f && aPos.z >= 97.8f)
         {            
             Refueling();
         }
         
-        if (V3.x >= 371.8f && V3.x <= 372.3f &&
-            V3.y > 0.0f &&
-            V3.z <= 104.33f && V3.z >= 97.8f)
+        if (aPos.x >= 371.8f && aPos.x <= 372.3f &&
+            aPos.y > 0.0f &&
+            aPos.z <= 104.33f && aPos.z >= 97.8f)
         {           
             Refueling();
         }
-
         LowFuel();        
     }
 
+    // Method for refueling. Checks value fuel from class CarContol
     public void Refueling()
     {
         if (CarControl.Fuel < 10000.0f)
@@ -58,6 +56,7 @@ public class FuelManagement : MonoBehaviour
         }        
     }
 
+    // Method for showing warning if fuel is low
     public void LowFuel()
     {
         if (CarControl.Fuel < 2000.0f)

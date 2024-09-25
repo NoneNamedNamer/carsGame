@@ -6,11 +6,11 @@ using UnityEngine.UI;
 
 public class CarControl : MonoBehaviour
 {
-    [SerializeField]
-    GameObject DamagedCarCanvas;
-    [SerializeField]
-    GameObject InterfaceCanvas;
+    // Canvases
+    [SerializeField] GameObject DamagedCarCanvas;
+    [SerializeField] GameObject InterfaceCanvas;
     
+    // Values for car mechanics
     public float motorTorque = 2000;
     public float brakeTorque = 2000;
     public float maxSpeed = 20;
@@ -18,24 +18,24 @@ public class CarControl : MonoBehaviour
     public float steeringRangeAtMaxSpeed = 10;
     public float centreOfGravityOffset = -1f;
 
+    // Boolean for checking if UI is active or not
     bool activeUI = false;
 
-    [SerializeField]
-    TMPro.TMP_Text speedText;
+    // Texts for UI
+    [SerializeField] TMPro.TMP_Text speedText;
+    [SerializeField] TMPro.TMP_Text gearText;
+    [SerializeField] TMPro.TMP_Text tachText;
+    [SerializeField] TMPro.TMP_Text fuelText;
 
-    [SerializeField]
-    TMPro.TMP_Text gearText;
-
-    [SerializeField]
-    TMPro.TMP_Text tachText;
-
-    [SerializeField]
-    TMPro.TMP_Text fuelText;
-
+    // Synchronisation
     float sync = 0.0f;
+    // Gear. Will have values from -1 to 5. Neutral gear has 0 value
+    // Default value is 1
     int gear = 1;
+    // Tachometer
     float tach = 1.0f;
 
+    // Value for car's damage
     static float damage = 0.0f;
     public static float Damage
     {
@@ -43,6 +43,7 @@ public class CarControl : MonoBehaviour
         set { damage = value; }
     }
 
+    // Value for car's fuel
     static float fuel = 5000.0f;  
     public static float Fuel
     {
@@ -50,12 +51,15 @@ public class CarControl : MonoBehaviour
         set { fuel = value; }
     }
 
+    // Massive of wheels. Using WheelControl script
     WheelControl[] wheels;
+    // Object rigidBody for further actions
     Rigidbody rigidBody;
 
     // Start is called before the first frame update
     void Start()
     {
+        // Finding rigidBody component
         rigidBody = GetComponent<Rigidbody>();
 
         // Adjust center of mass vertically, to help prevent the car from rolling
@@ -65,7 +69,7 @@ public class CarControl : MonoBehaviour
         wheels = GetComponentsInChildren<WheelControl>();     
     }
 
-    // Update is called once per frame
+    // Massive updating method
     void Update()
     {
         float vInput = Input.GetAxis("Vertical");
@@ -91,13 +95,16 @@ public class CarControl : MonoBehaviour
         // as the car's velocity
         bool isAccelerating = Mathf.Sign(vInput) == Mathf.Sign(forwardSpeed);
 
-        //Gear shifting        
+        // Gear shifting
+        // Neutral gear
         if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.N))
         {
             gear = 0;
             sync = 0;
+            // Setting last tachometer value
             tach = speedFactor * 2500;
         }
+        // Gear 1
         if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Alpha1))
         {
             sync = 1.0f - damage;
@@ -116,6 +123,7 @@ public class CarControl : MonoBehaviour
                 tach = speedFactor * 2500;
             }            
         }
+        // Gear 2
         if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Alpha2))
         {
             sync = speedFactor + 1.0f - damage;
@@ -134,6 +142,7 @@ public class CarControl : MonoBehaviour
                 tach = speedFactor * 2500;
             }
         }
+        // Gear 3
         if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Alpha3))
         {
             sync = speedFactor + 2.0f - damage;
@@ -152,6 +161,7 @@ public class CarControl : MonoBehaviour
                 tach = speedFactor * 2500;
             }
         }
+        // Gear 4
         if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Alpha4))
         {
             sync = speedFactor + 3.0f - damage;
@@ -170,6 +180,7 @@ public class CarControl : MonoBehaviour
                 tach = speedFactor * 2500;
             }
         }
+        // Gear 5
         if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Alpha5))
         {
             sync = speedFactor + 4.0f - damage;
@@ -188,6 +199,7 @@ public class CarControl : MonoBehaviour
                 tach = speedFactor * 2500;
             }
         }
+        // Reverse gear
         if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.R))
         {
             sync = speedFactor;
@@ -207,9 +219,12 @@ public class CarControl : MonoBehaviour
             }
         }
 
-        //Tachometer in UI
+        // Tachometer in UI
+        // Setting it after gear shifting for setting correct value
+        // of tachometer in UI
         tach = speedFactor * 2500;
 
+        // Checking if car's damage is higher than valid value
         if (damage > 0.2f)
         {
             DamagedCarCanvas.SetActive(true);
@@ -219,35 +234,40 @@ public class CarControl : MonoBehaviour
             DamagedCarCanvas.SetActive(false);
         }
 
-        //Wheel management
+        // Wheel management
         foreach (var wheel in wheels)
         {
+            // Deactivating motorization for car if
+            // car has neutral gear or has fuel capacity lower than 50
             if (gear == 0 || fuel <= 50)
             {
                 wheel.motorized = false;
             }
+            // Condition for motorization car if gear differs from neutral
             else if (gear != 0)
             {
                 wheel.motorized = true;
             }
+
             // Apply steering to Wheel colliders that have "Steerable" enabled
             if (wheel.steerable)
             {
                 wheel.WheelCollider.steerAngle = hInput * currentSteerRange;
             }
             
+            // Checking if car moves there where it drives
             if (isAccelerating)
-            {
-                
+            {                
                 // Apply torque to Wheel colliders that have "Motorized" enabled
                 if (wheel.motorized)
                 {
                     wheel.WheelCollider.motorTorque = vInput * currentMotorTorque;
                     fuel = fuel - Mathf.Abs(vInput)/100;
                 }
-
+                // Non-active brakes
                 wheel.WheelCollider.brakeTorque = 0;
             }
+            // Opposite checking
             if (!isAccelerating)
             {
                 // If the user is trying to go in the opposite direction
@@ -257,12 +277,14 @@ public class CarControl : MonoBehaviour
             }
         }
 
+        // Adjusting key Tab to turn on/off car's UI
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             activeUI = !activeUI;
             InterfaceCanvas.SetActive(activeUI);
         }
 
+        // UI text info
         speedText.text = $"Speed: {Math.Round(Mathf.Abs(forwardSpeed), 0)}";
         gearText.text = $"Gear: {gear}";
         tachText.text = $"Tach: {Math.Round(tach, 0)}";
