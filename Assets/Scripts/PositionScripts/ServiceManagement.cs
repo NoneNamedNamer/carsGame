@@ -10,7 +10,7 @@ public class ServiceManagement : MonoBehaviour
     [SerializeField] GameObject RepairingDoneCanvas;
     //public GameObject AudioSource;
 
-    // Update is called once per frame
+    // Updating checks for activating methods if needed
     void Update()
     {
         V3 = this.transform.position;
@@ -29,8 +29,11 @@ public class ServiceManagement : MonoBehaviour
         }
     }
 
+    // Method for repairing car
     public void Repairing()
     {
+        // Check if damage more than value 0.
+        // If so by pressing key "R" car will be repaired immediately
         if (CarControl.Damage > 0.0f)
         {
             if (Input.GetKeyDown(KeyCode.R))
@@ -45,6 +48,9 @@ public class ServiceManagement : MonoBehaviour
             //RepairingDoneCanvas.SetActive(true);
         }
 
+        // Check for checking if damage's value equals 0.
+        // If so canvas of finished repairing will be shown on the screen
+        // while player is on exact position for activating
         if (CarControl.Damage == 0.0f)
         {
             RepairingDoneCanvas.SetActive(true);
